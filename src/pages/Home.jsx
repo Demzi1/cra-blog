@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
   useEffect(()=>{
     const fetchData = async()=>{
       try {
+        setPosts(null)
         const res = await axios.get(`/api/posts${cat}`);
         setPosts(res.data);
       } catch (err) {
@@ -30,6 +32,17 @@ const Home = () => {
   const handleClick = (id)=>{
     const p = document.getElementById(`desc_${id}`)
     p.style.height="auto"
+  }
+
+
+  if(!posts?.length){
+    return <ClipLoader
+    color="green"
+    loading={true}
+    size={150}
+    aria-label="Loading Spinner"
+    data-testid="loader"
+  />
   }
   
   return (
